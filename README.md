@@ -1,0 +1,2 @@
+# Mesh API
+[![CircleCI](https://circleci.com/gh/onwuvic/mesh-api/tree/develop.svg?style=svg)](https://circleci.com/gh/onwuvic/mesh-api/tree/develop) [![Maintainability](https://api.codeclimate.com/v1/badges/6ce7172178567742ad18/maintainability)](https://codeclimate.com/github/onwuvic/mesh-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6ce7172178567742ad18/test_coverage)](https://codeclimate.com/github/onwuvic/mesh-api/test_coverage) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
