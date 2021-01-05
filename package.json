@@ -1,7 +1,7 @@
 {
   "name": "mesh-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mesh API app build with (Express, Node and Firebase)",
   "main": "src/index.js",
   "scripts": {
     "build": "npm run clean && npm run build-server",
@@ -11,7 +11,8 @@
     "lint:fix": "npm run lint --fix",
     "serve": "node dist/src/index.js",
     "start": "cross-env NODE_ENV=production npm run build && npm run serve",
-    "dev": "cross-env NODE_ENV=development DEBUG=log node_modules/.bin/nodemon --exec babel-node src/index.js"
+    "dev": "cross-env NODE_ENV=development DEBUG=log node_modules/.bin/nodemon --exec babel-node src/index.js",
+    "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit"
   },
   "author": "Onwuzor Victor <onwuzorvictor@outlook.com>",
   "license": "MIT",
@@ -37,5 +38,23 @@
     "jest": "^24.1.0",
     "nodemon": "1.18.11",
     "supertest": "^3.4.2"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!**/__tests__/**/*.js?(x)"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/?(*.)(spec|test)js",
+      "<rootDir>/src/**/?(*.)(spec|test).js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/database/migrations",
+      "<rootDir>/src/database/seeders",
+      "<rootDir>/src/database/models/index.js"
+    ],
+    "testEnvironment": "node"
   }
 }

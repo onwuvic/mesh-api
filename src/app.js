@@ -19,12 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // set base url for api
 // routes(app);
-app.use('/', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    message: `Welcome to Mesh`
-  });
-});
+// app.use('/', (req, res) => {
+//   res.status(200).json({
+//     status: 'success',
+//     message: `Welcome to Mesh`
+//   });
+// });
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.use('*', (req, res) => {
