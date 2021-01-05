@@ -1,0 +1,4 @@
+exclude_patterns:
+  - '**/*.spec.js'
+  - '**/*.test.js'
+  - '**/__mocks__/'
