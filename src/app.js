@@ -2,7 +2,7 @@ import logger from 'morgan';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-// import routes from './routes';
+import routes from './routes';
 
 // Set up the express app
 const app = express();
@@ -18,13 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // set base url for api
-// routes(app);
-// app.use('/', (req, res) => {
-//   res.status(200).json({
-//     status: 'success',
-//     message: `Welcome to Mesh`
-//   });
-// });
+app.use('/api/v1', routes);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.use('*', (req, res) => {
