@@ -1,4 +1,5 @@
 import response from '../../response';
+import db from '../../firebase';
 
 const saveOrder = async (body) => {
   const orders = [];
@@ -9,6 +10,19 @@ const saveOrder = async (body) => {
     return response.serverErrorResponseObject()
   }
 }
+
+// const findOrder = async (id) => {
+//   try {
+//     const doc = await db.doc(`orders/${id}`).get();
+//     if (doc.exists) {
+//         return response.successResponseObject({...doc.data()});
+//     } else {
+//       return response.failureResponseObject(404, 'Order document doesn\'t exist');
+//     }
+//   } catch (error) {
+//     return response.serverErrorResponseObject()
+//   }
+// }
 
 export default {
   saveOrder
