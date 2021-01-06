@@ -1,12 +1,8 @@
 import express from 'express';
+import ordersController from '../modules/orders/ordersController';
 
 const router = express.Router();
 
-router.get('/orders', (req, res) => {
-  return res.status(200).json({
-    status: 'success',
-    message: "Welcome to Orders"
-  })
-})
+router.post('/orders', ordersController.create);
 
 export default router;
