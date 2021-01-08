@@ -1,11 +1,22 @@
 import ajv from 'ajv';
-import createOrderSchema from './schemas/createOrderSchema.json';
 import response from '../../response';
+import createOrderSchema from './schemas/createOrderSchema.json';
+import updateOrderSchema from './schemas/updateOrderSchema.json';
 
 const ajValidator = ajv({allErrors: true});
 
 const createOrderInputValidation = (req, res, next) => {
   const validate = ajValidator.compile(createOrderSchema);
+  const result = validate(req.body);
+  if (!result) {
+    const errors = parseErrors(validate.errors);
+    return response.error(res, errors, 400);
+  }
+  return next();
+}
+
+const updateOrderInputValidation = (req, res, next) => {
+  const validate = ajValidator.compile(updateOrderSchema);
   const result = validate(req.body);
   if (!result) {
     const errors = parseErrors(validate.errors);
@@ -30,7 +41,8 @@ const parseErrors = (validationErrors) => {
 }
 
 export default {
-  createOrderInputValidation
+  createOrderInputValidation,
+  updateOrderInputValidation
 }
 
 
