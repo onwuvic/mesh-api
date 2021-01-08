@@ -3,7 +3,7 @@ import db from '../../firebase';
 const saveOrder = async (body) => {
   const { title, bookingDate, email, name, phone, city, country, street, zip } = body;
 
-  const { _path: { segments: [, id] } } = await db.collection('orders')
+  const { _path: { segments: [, uid] } } = await db.collection('orders')
     .add({
       title,
       bookingDate: +bookingDate,
@@ -20,15 +20,29 @@ const saveOrder = async (body) => {
       }
     });
 
-  const orders = await findOrderById(id);
+  const orders = await findOrderById(uid);
   return orders;
 }
 
-const findOrderById = async (id) => {
-  const doc = await db.collection('orders').doc(id).get();
-  return { ...doc.data() };
+const findOrderById = async (uid) => {
+  const doc = await db.collection('orders').doc(uid).get();
+  return { uid, ...doc.data() };
+}
+
+const updateOrder = async (uid, body) => {
+  const { title, bookingDate } = body;
+  await db.collection('orders')
+    .doc(uid)
+    .update({
+      title,
+      bookingDate: +bookingDate,
+    });
+
+  const orders = await findOrderById(uid);
+  return orders;
 }
 
 export default {
-  saveOrder
+  saveOrder,
+  updateOrder
 }
