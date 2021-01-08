@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "bookingDate": {
+      "type": "number"
+    }
+  },
+  "required": ["title", "bookingDate"],
+  "additionalProperties": false
+}

@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "bookingDate": {
+      "type": "number"
+    },
+    "address": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "country": { "type":"string" },
+        "street": { "type": "string" },
+        "zip": { "type": "string" }
+      },
+      "required": ["city", "country", "street", "zip"],
+      "additionalProperties": false
+    },
+    "customer": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "name": { "type":"string" },
+        "phone": { "type": "string" }
+      },
+      "required": ["email", "name", "phone"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["title", "bookingDate", "address", "customer"],
+  "additionalProperties": false
+}
