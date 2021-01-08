@@ -1,28 +1,33 @@
-import response from '../../response';
 import db from '../../firebase';
 
 const saveOrder = async (body) => {
-  const orders = [];
-  try {
-    orders.push(body);
-    return response.successResponseObject(body, 201);
-  } catch (error) {
-    return response.serverErrorResponseObject()
-  }
+  const { title, bookingDate, email, name, phone, city, country, street, zip } = body;
+
+  const { _path: { segments: [, id] } } = await db.collection('orders')
+    .add({
+      title,
+      bookingDate: +bookingDate,
+      customer: {
+        email,
+        name,
+        phone
+      },
+      address: {
+        city,
+        country,
+        street,
+        zip
+      }
+    });
+
+  const orders = await findOrderById(id);
+  return orders;
 }
 
-// const findOrder = async (id) => {
-//   try {
-//     const doc = await db.doc(`orders/${id}`).get();
-//     if (doc.exists) {
-//         return response.successResponseObject({...doc.data()});
-//     } else {
-//       return response.failureResponseObject(404, 'Order document doesn\'t exist');
-//     }
-//   } catch (error) {
-//     return response.serverErrorResponseObject()
-//   }
-// }
+const findOrderById = async (id) => {
+  const doc = await db.collection('orders').doc(id).get();
+  return { ...doc.data() };
+}
 
 export default {
   saveOrder
