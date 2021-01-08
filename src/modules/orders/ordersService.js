@@ -1,24 +1,8 @@
 import db from '../../firebase';
 
 const saveOrder = async (body) => {
-  const { title, bookingDate, email, name, phone, city, country, street, zip } = body;
-
   const { _path: { segments: [, uid] } } = await db.collection('orders')
-    .add({
-      title,
-      bookingDate: +bookingDate,
-      customer: {
-        email,
-        name,
-        phone
-      },
-      address: {
-        city,
-        country,
-        street,
-        zip
-      }
-    });
+    .add(body);
 
   const orders = await findOrderById(uid);
   return orders;
