@@ -1,43 +1,20 @@
-const success = (res, response) => {
-  return res.status(response.statusCode).json({
-    status: response.status,
-    data: response.resource
+const SERVER_ERROR_MESSAGE = 'Unable to perform this action at this time. Try again later.';
+
+const success = (res, resource, statusCode = 200) => {
+  return res.status(statusCode).json({
+    status: true,
+    data: resource
   });
 }
 
-const error = (res, response) => {
-  return res.status(response.statusCode).json({
-    status: response.status,
-    message: response.message
-  });
-}
-
-const successResponseObject = (resource, statusCode = 200) => {
-  return { status: true, statusCode, resource };
-}
-
-const failureResponseObject = (statusCode, message) => {
-  return { status: false, statusCode, message };
-}
-
-const serverErrorResponseObject = () => {
-  return {
+const error = (res, message = SERVER_ERROR_MESSAGE, statusCode = 500) => {
+  return res.status(statusCode).json({
     status: false,
-    statusCode: 500,
-    message: 'Unable to perform this action at this time. Try again later.'
-  };
-}
-
-const httpResponse = (res, response) => {
-  if (response.status) {
-    return success(res, response);
-  }
-  return error(res, response);
+    message
+  });
 }
 
 export default {
-  httpResponse,
-  successResponseObject,
-  failureResponseObject,
-  serverErrorResponseObject
+  success,
+  error
 };
