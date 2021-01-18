@@ -1,9 +1,11 @@
 import ajv from 'ajv';
+import ajvKeywords from 'ajv-keywords';
 import response from '../../response';
 import createOrderSchema from './schemas/createOrderSchema.json';
 import updateOrderSchema from './schemas/updateOrderSchema.json';
 
-const ajValidator = ajv({allErrors: true});
+const ajValidator = new ajv({allErrors: true});
+ajvKeywords(ajValidator, ['transform']);
 
 const createOrderInputValidation = (req, res, next) => {
   const validate = ajValidator.compile(createOrderSchema);
