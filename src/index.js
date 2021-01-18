@@ -3,7 +3,7 @@ import debug from 'debug';
 
 import app from './app'; // The express app we just created
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process.env.PORT, 10) || 4000;
 app.set('port', port);
 
 const logger = debug('log');
