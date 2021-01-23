@@ -1,10 +1,12 @@
 import ajv from 'ajv';
 import ajvKeywords from 'ajv-keywords';
+import addFormats from "ajv-formats"
 import response from '../../response';
 import createOrderSchema from './schemas/createOrderSchema.json';
 import updateOrderSchema from './schemas/updateOrderSchema.json';
 
 const ajValidator = new ajv({allErrors: true});
+addFormats(ajValidator);
 ajvKeywords(ajValidator, ['transform']);
 
 const createOrderInputValidation = (req, res, next) => {
@@ -12,7 +14,7 @@ const createOrderInputValidation = (req, res, next) => {
   const result = validate(req.body);
   if (!result) {
     const errors = parseErrors(validate.errors);
-    return response.error(res, errors, 400);
+    return response.badRequest(res, errors);
   }
   return next();
 }
@@ -22,7 +24,7 @@ const updateOrderInputValidation = (req, res, next) => {
   const result = validate(req.body);
   if (!result) {
     const errors = parseErrors(validate.errors);
-    return response.error(res, errors, 400);
+    return response.badRequest(res, errors);
   }
   return next();
 }

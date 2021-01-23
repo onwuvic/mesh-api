@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import dotenv from 'dotenv';
+import FirestoreMock from 'firestore-mock';
 
 dotenv.config();
 
@@ -21,5 +22,5 @@ export const firebase = admin.initializeApp({
   databaseURL: process.env.DATABASE_URL
 })
 
-export const db = firebase.firestore();
-export const auth = firebase.auth();
+export const db = process.env.NODE_ENV === 'test' ? new FirestoreMock() : firebase.firestore();
+export const auth = process.env.NODE_ENV === 'test' ? new FirestoreMock() : firebase.auth();
