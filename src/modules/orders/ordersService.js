@@ -1,22 +1,18 @@
+import { uid } from 'uid';
 import { db } from '../../config/firebase';
 import response from '../../response';
 
 const saveOrder = async (body) => {
   try {
-    const { _path: { segments: [, uid] } } = await db
-      .collection('orders')
-      .add(body);
+    const uuid = uid(25);
+    const orderRef = await getOrderDoc(uuid);
 
-    const orders = await findOrderById(uid);
-    return response.successResponseObject(orders, 201);
+    await orderRef.set(body);
+
+    return response.successResponseObject({...body, uid: uuid }, 201);
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
-
-const findOrderById = async (uid) => {
-  const doc = await db.collection('orders').doc(uid).get();
-  return { uid, ...doc.data() };
 }
 
 const updateOrder = async (uid, body) => {
