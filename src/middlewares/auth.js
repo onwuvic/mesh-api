@@ -1,5 +1,5 @@
 import response  from '../response';
-import { auth } from '../firebase';
+import { auth } from '../config/firebase';
 
 const tokenAuthentication = async (req, res, next) => {
   // get option to the request headers
