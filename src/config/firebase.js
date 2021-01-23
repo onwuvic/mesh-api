@@ -23,4 +23,3 @@ export const firebase = admin.initializeApp({
 })
 
 export const db = process.env.NODE_ENV === 'test' ? new FirestoreMock() : firebase.firestore();
-export const auth = process.env.NODE_ENV === 'test' ? new FirestoreMock() : firebase.auth();

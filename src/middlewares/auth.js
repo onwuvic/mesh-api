@@ -1,5 +1,5 @@
 import response  from '../response';
-import { auth } from '../config/firebase';
+import { firebase } from '../config/firebase';
 
 const tokenAuthentication = async (req, res, next) => {
   // get option to the request headers
@@ -12,7 +12,7 @@ const tokenAuthentication = async (req, res, next) => {
   const bearerToken = bearer[1];
 
   try {
-    const decodedToken = await auth.verifyIdToken(bearerToken);
+    const decodedToken = await firebase.auth().verifyIdToken(bearerToken);
 
     req.uid = decodedToken.uid;
     return next()
