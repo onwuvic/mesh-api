@@ -12,12 +12,14 @@
     "serve": "node dist/src/index.js",
     "start": "cross-env NODE_ENV=production npm run build && npm run serve",
     "dev": "cross-env NODE_ENV=development DEBUG=log node_modules/.bin/nodemon --exec babel-node src/index.js",
+    "pretest": "cross-env NODE_ENV=test",
     "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit"
   },
   "author": "Onwuzor Victor <onwuzorvictor@outlook.com>",
   "license": "MIT",
   "dependencies": {
     "ajv": "^7.0.3",
+    "ajv-formats": "^1.5.1",
     "ajv-keywords": "^4.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -39,6 +41,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "faker": "4.1.0",
+    "firestore-mock": "^1.0.4",
     "jest": "^24.1.0",
     "nodemon": "1.18.11",
     "supertest": "^3.4.2"

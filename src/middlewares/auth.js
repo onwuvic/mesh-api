@@ -5,7 +5,7 @@ const tokenAuthentication = async (req, res, next) => {
   // get option to the request headers
   const bearerHeader = req.get('authorization');
   if (!bearerHeader) {
-    return response.error(res, 'No token provided', 401);
+    return response.unauthorized(res, 'No token provided');
   }
 
   const bearer = bearerHeader.split(' ');
@@ -17,7 +17,7 @@ const tokenAuthentication = async (req, res, next) => {
     req.uid = decodedToken.uid;
     return next()
   } catch (error) {
-    return response.error(res, 'Error authenticating, please login again', 401);
+    return response.unauthorized(res, 'Error authenticating, please login again');
   }
 
 }
