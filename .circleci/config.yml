@@ -4,6 +4,19 @@ jobs: # a collection of steps
     working_directory: ~/mesh-api # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/node:carbon # ...with this image as the primary container; this is where all `steps` will run
+        environment:
+          PROJECT_TYPE: '${PROJECT_TYPE}'
+          PROJECT_ID: '${PROJECT_ID}'
+          PRIVATE_KEY_ID: '${PRIVATE_KEY_ID}'
+          PRIVATE_KEY: '${PRIVATE_KEY}'
+          CLIENT_EMAIL: '${CLIENT_EMAIL}'
+          CLIENT_ID: '${CLIENT_ID}'
+          AUTH_URI: '${AUTH_URI}'
+          TOKEN_URI: '${TOKEN_URI}'
+          AUTH_PROVIDER_CERT_URL: '${AUTH_PROVIDER_CERT_URL}'
+          CLIENT_CERT_URL: '${CLIENT_CERT_URL}'
+          DATABASE_URL: '${DATABASE_URL}'
+          API_KEY: '${API_KEY}'
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
       - run:

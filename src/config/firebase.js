@@ -8,7 +8,7 @@ export const config = {
   projectType: process.env.PROJECT_TYPE,
   projectId: process.env.PROJECT_ID,
   privateKeyId: process.env.PRIVATE_KEY_ID,
-  privateKey: process.env.PRIVATE_KEY,
+  privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
   clientEmail: process.env.CLIENT_EMAIL,
   clientId: process.env.CLIENT_ID,
   authURI: process.env.AUTH_URI,
