@@ -42,6 +42,28 @@ const findOne = async (uid) => {
 }
 
 /**
+ * delete one Order service
+ *
+ * @returns {Object} - error objects if fails or orders array if successful
+ */
+const destroy = async (uid) => {
+  try {
+    const orderRef = await getOrderDoc(uid);
+    const order = await orderRef.get();
+
+    if (!order.data()) {
+      return response.failureResponseObject(404, `Order with id ${uid} not found`);
+    }
+
+    await orderRef.delete();
+
+    return response.successResponseObject({uid}, 200);
+  } catch (error) {
+    return response.serverErrorResponseObject();
+  }
+}
+
+/**
  * Save Order service
  *
  * @param {object} body user inputted order
@@ -109,5 +131,6 @@ export default {
   saveOrder,
   updateOrder,
   findAll,
-  findOne
+  findOne,
+  destroy
 }
