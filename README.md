@@ -41,8 +41,8 @@
 ## Language
 * JavaScript
 
-## Api Documentation
-
+## Api Documentation/Usage
+* [Postman Docs](https://documenter.getpostman.com/view/3765915/TW6tMAFQ)
 ## Author
 [Victor Onwuzor](https://github.com/onwuvic)
 
