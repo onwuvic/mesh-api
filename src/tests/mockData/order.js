@@ -31,3 +31,5 @@ export const wrongOrderData = {
     phone: faker.phone.phoneNumberFormat()
   }
 }
+
+export const authToken = 'sjsjsjsj.sjjsjsjjsjs.sjjsjsjsj'

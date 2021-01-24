@@ -1,17 +1,16 @@
 import supertest from 'supertest';
 import http from 'http';
 import app from '../../../app';
-import { mockOrder, wrongOrderData } from '../../../tests/mockData/order';
-import { getIdTokenFromCustomToken } from '../../../tests/utils/testHelper';
+import { mockOrder, wrongOrderData, authToken } from '../../../tests/mockData/order';
 import ordersService from '../ordersService';
 import httpResponses from '../../../response';
 
 describe(' ', () => {
   let server;
   let request;
-  let token;
   let orderId;
   const baseUrl = '/api/v1';
+  const token = process.env.AUTH_TOKEN || authToken
 
   beforeAll((done) => {
     server = http.createServer(app);
@@ -24,11 +23,6 @@ describe(' ', () => {
   });
 
   describe('Orders Endpoints', () => {
-
-    beforeAll(async () => {
-      token = await getIdTokenFromCustomToken();
-    });
-
     describe('Creating Order Test', () => {
       describe('Successfully creating an Order', () => {
         it('should create and return an order object if user is authenticated', async () => {
@@ -157,6 +151,50 @@ describe(' ', () => {
         });
       })
     })
+
+    describe('Gell All Orders Test', () => {
+      describe('Success Getting all Orders', () => {
+        it('should get all Orders', async () => {
+          const response = await request
+            .get(`${baseUrl}/orders`)
+            .set('authorization', `Bearer ${token}`);
+
+          expect(response.status).toBe(200);
+          expect(response.body.data[0]).toHaveProperty('title');
+          expect(response.body.data[0]).toHaveProperty('bookingDate');
+        });
+      })
+
+      describe('Failed getting all Orders ', () => {
+        it('should return 401 error if no token is provided', async () => {
+          const response = await request
+            .get(`${baseUrl}/orders`);
+
+          expect(response.status).toBe(401);
+          expect(response.body.message).toBe('No token provided');
+        });
+
+        it('should return 401 error if wrong token is provided', async () => {
+          const response = await request
+            .get(`${baseUrl}/orders`)
+            .set('authorization', `Bearer 88383ndhhddjsjjsjs`);
+
+          expect(response.status).toBe(401);
+          expect(response.body.message).toBe('Error authenticating, please login again');
+        });
+
+        it('should return 500 error if server fails to update', async () => {
+          jest.spyOn(ordersService, 'findAll').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          const response = await request
+            .get(`${baseUrl}/orders`)
+            .set('authorization', `Bearer ${token}`);
+
+          expect(response.status).toBe(500);
+          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+        });
+      })
+    })
+
 
   });
 });
