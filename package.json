@@ -13,7 +13,7 @@
     "start": "cross-env NODE_ENV=production npm run build && npm run serve",
     "dev": "cross-env NODE_ENV=development DEBUG=log node_modules/.bin/nodemon --exec babel-node src/index.js",
     "pretest": "cross-env NODE_ENV=test",
-    "test": "jest --testTimeout=50000 --no-cache  --detectOpenHandles --runInBand --forceExit"
+    "test": "jest --testTimeout=100000 --no-cache  --detectOpenHandles --runInBand --forceExit"
   },
   "author": "Onwuzor Victor <onwuzorvictor@outlook.com>",
   "license": "MIT",

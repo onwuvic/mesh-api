@@ -2,6 +2,24 @@ import { uid } from 'uid';
 import { db } from '../../config/firebase';
 import response from '../../response';
 
+/**
+ * find all Orders service
+ *
+ * @returns {Object} - error objects if fails or orders array if successful
+ */
+const findAll = async () => {
+  try {
+    const ordersRef = await db
+      .collection('orders')
+      .get();
+
+    const orders = ordersRef.docs.map((order) => ({id: order.id, ...order.data()}));
+
+    return response.successResponseObject(orders, 200);
+  } catch (error) {
+    return response.serverErrorResponseObject();
+  }
+}
 
 /**
  * Save Order service
@@ -69,5 +87,6 @@ const getOrderDoc = async (uid) => {
 
 export default {
   saveOrder,
-  updateOrder
+  updateOrder,
+  findAll
 }

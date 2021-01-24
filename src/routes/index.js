@@ -19,4 +19,10 @@ router.put(
   ordersController.update
 );
 
+router.get(
+  '/orders',
+  tokenAuthentication,
+  ordersController.getAll
+);
+
 export default router;
