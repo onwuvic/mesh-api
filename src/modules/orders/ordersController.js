@@ -16,7 +16,7 @@ const create = async (req, res) => {
 }
 
 /**
- * Create a new order
+ * Get all orders
  *
  * @param {object} req The http request payload sent from the user
  * @param {object} res - The http response payload sent back
@@ -29,6 +29,19 @@ const getAll = async (req, res) => {
 }
 
 /**
+ * Get one order by id
+ *
+ * @param {object} req The http request payload sent from the user
+ * @param {object} res - The http response payload sent back
+ *
+ * @returns {Object} - error objects if fails or order object if successful
+ */
+const getOne = async (req, res) => {
+  const result = await orderService.findOne(req.params.orderId);
+  return response.httpResponse(res, result);
+}
+
+/**
  * Update an existing order
  *
  * @param {object} req The http request payload sent from the user
@@ -37,12 +50,13 @@ const getAll = async (req, res) => {
  * @returns {Object} - error objects if fails or order object if successful
  */
 const update = async (req, res) => {
-  const result = await orderService.updateOrder(req.params.id, req.body);
+  const result = await orderService.updateOrder(req.params.orderId, req.body);
   return response.httpResponse(res, result);
 }
 
 export default {
   create,
   update,
-  getAll
+  getAll,
+  getOne
 }

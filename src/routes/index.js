@@ -13,7 +13,7 @@ router.post(
 );
 
 router.put(
-  '/orders/:id',
+  '/orders/:orderId',
   tokenAuthentication,
   validations.updateOrderInputValidation,
   ordersController.update
@@ -23,6 +23,12 @@ router.get(
   '/orders',
   tokenAuthentication,
   ordersController.getAll
+);
+
+router.get(
+  '/orders/:orderId',
+  tokenAuthentication,
+  ordersController.getOne
 );
 
 export default router;

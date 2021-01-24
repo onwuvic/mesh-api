@@ -22,6 +22,26 @@ const findAll = async () => {
 }
 
 /**
+ * find one Order service
+ *
+ * @returns {Object} - error objects if fails or orders array if successful
+ */
+const findOne = async (uid) => {
+  try {
+    const orderRef = await getOrderDoc(uid);
+    const order = await orderRef.get();
+
+    if (!order.data()) {
+      return response.failureResponseObject(404, `Order with id ${uid} not found`);
+    }
+
+    return response.successResponseObject({uid, ...order.data()}, 200);
+  } catch (error) {
+    return response.serverErrorResponseObject();
+  }
+}
+
+/**
  * Save Order service
  *
  * @param {object} body user inputted order
@@ -88,5 +108,6 @@ const getOrderDoc = async (uid) => {
 export default {
   saveOrder,
   updateOrder,
-  findAll
+  findAll,
+  findOne
 }
