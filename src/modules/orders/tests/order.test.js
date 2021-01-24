@@ -248,6 +248,58 @@ describe(' ', () => {
 
     })
 
+    describe('Delete Order Test', () => {
+      describe('Successfully delete Order', () => {
+        it('should get all Orders', async () => {
+          const response = await request
+            .delete(`${baseUrl}/orders/${orderId}`)
+            .set('authorization', `Bearer ${token}`);
+
+          expect(response.status).toBe(200);
+          expect(response.body.data.uid).toBe(orderId);
+        });
+      })
+
+      describe('Failed deleting Order', () => {
+        it('should return 401 error if no token is provided', async () => {
+          const response = await request
+            .delete(`${baseUrl}/orders/${orderId}`);
+
+          expect(response.status).toBe(401);
+          expect(response.body.message).toBe('No token provided');
+        });
+
+        it('should return 401 error if wrong token is provided', async () => {
+          const response = await request
+            .delete(`${baseUrl}/orders/${orderId}`)
+            .set('authorization', `Bearer 88383ndhhddjsjjsjs`);
+
+          expect(response.status).toBe(401);
+          expect(response.body.message).toBe('Error authenticating, please login again');
+        });
+
+        it('should return 404 error if order does not exist', async () => {
+          const response = await request
+            .delete(`${baseUrl}/orders/99ow`)
+            .set('authorization', `Bearer ${token}`);
+
+          expect(response.status).toBe(404);
+          expect(response.body.message).toBe('Order with id 99ow not found');
+        });
+
+        it('should return 500 error if server fails to update', async () => {
+          jest.spyOn(ordersService, 'destroy').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          const response = await request
+            .delete(`${baseUrl}/orders/${orderId}`)
+            .set('authorization', `Bearer ${token}`);
+
+          expect(response.status).toBe(500);
+          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+        });
+      })
+
+
+    })
 
   });
 });

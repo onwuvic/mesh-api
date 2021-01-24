@@ -31,4 +31,10 @@ router.get(
   ordersController.getOne
 );
 
+router.delete(
+  '/orders/:orderId',
+  tokenAuthentication,
+  ordersController.destroy
+);
+
 export default router;
