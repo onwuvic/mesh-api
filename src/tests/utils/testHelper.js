@@ -2,6 +2,11 @@ import { uid } from 'uid';
 import axios from 'axios';
 import { firebase } from "../../config/firebase"
 
+/**
+ * Generate firebase auth token for testing
+ *
+ * @returns {Token} - Firebase auth token
+ */
 export const getIdTokenFromCustomToken = async () => {
   try {
     const uuid = uid(25);

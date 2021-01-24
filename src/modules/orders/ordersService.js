@@ -2,6 +2,14 @@ import { uid } from 'uid';
 import { db } from '../../config/firebase';
 import response from '../../response';
 
+
+/**
+ * Save Order service
+ *
+ * @param {object} body user inputted order
+ *
+ * @returns {Object} - error objects if fails or order object if successful
+ */
 const saveOrder = async (body) => {
   try {
     const uuid = uid(25);
@@ -15,6 +23,15 @@ const saveOrder = async (body) => {
   }
 }
 
+
+/**
+ * Update Order service
+ *
+ * @param {object} body user inputted order
+ * @param {uid} uid of the Order to edit
+ *
+ * @returns {Object} - error objects if fails or order object if successful
+ */
 const updateOrder = async (uid, body) => {
   const { title, bookingDate } = body;
   try {
@@ -39,6 +56,13 @@ const updateOrder = async (uid, body) => {
   }
 }
 
+/**
+ * gets the Order collection
+ *
+ * @param {uid} uid of the Order
+ *
+ * @returns {Object} - Promise<Order>
+ */
 const getOrderDoc = async (uid) => {
   return db.collection('orders').doc(uid);
 }
