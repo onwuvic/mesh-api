@@ -3,6 +3,15 @@ import { db } from '../../config/firebase';
 import response from '../../response';
 
 /**
+ * gets the Order collection
+ *
+ * @param {id} id of the Order
+ *
+ * @returns {Object} - Promise<Order>
+ */
+const getOrderDoc = async id => db.collection('orders').doc(id);
+
+/**
  * find all Orders service
  *
  * @returns {Object} - error objects if fails or orders array if successful
@@ -13,55 +22,55 @@ const findAll = async () => {
       .collection('orders')
       .get();
 
-    const orders = ordersRef.docs.map((order) => ({id: order.id, ...order.data()}));
+    const orders = ordersRef.docs.map(order => ({ id: order.id, ...order.data() }));
 
     return response.successResponseObject(orders, 200);
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
+};
 
 /**
  * find one Order service
  *
  * @returns {Object} - error objects if fails or orders array if successful
  */
-const findOne = async (uid) => {
+const findOne = async (id) => {
   try {
-    const orderRef = await getOrderDoc(uid);
+    const orderRef = await getOrderDoc(id);
     const order = await orderRef.get();
 
     if (!order.data()) {
-      return response.failureResponseObject(404, `Order with id ${uid} not found`);
+      return response.failureResponseObject(404, `Order with id ${id} not found`);
     }
 
-    return response.successResponseObject({uid, ...order.data()}, 200);
+    return response.successResponseObject({ uid: id, ...order.data() }, 200);
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
+};
 
 /**
  * delete one Order service
  *
  * @returns {Object} - error objects if fails or orders array if successful
  */
-const destroy = async (uid) => {
+const destroy = async (id) => {
   try {
-    const orderRef = await getOrderDoc(uid);
+    const orderRef = await getOrderDoc(id);
     const order = await orderRef.get();
 
     if (!order.data()) {
-      return response.failureResponseObject(404, `Order with id ${uid} not found`);
+      return response.failureResponseObject(404, `Order with id ${id} not found`);
     }
 
     await orderRef.delete();
 
-    return response.successResponseObject({uid}, 200);
+    return response.successResponseObject({ uid: id }, 200);
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
+};
 
 /**
  * Save Order service
@@ -77,11 +86,11 @@ const saveOrder = async (body) => {
 
     await orderRef.set(body);
 
-    return response.successResponseObject({...body, uid: uuid }, 201);
+    return response.successResponseObject({ ...body, uid: uuid }, 201);
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
+};
 
 
 /**
@@ -92,14 +101,14 @@ const saveOrder = async (body) => {
  *
  * @returns {Object} - error objects if fails or order object if successful
  */
-const updateOrder = async (uid, body) => {
+const updateOrder = async (id, body) => {
   const { title, bookingDate } = body;
   try {
-    const orderRef = await getOrderDoc(uid);
+    const orderRef = await getOrderDoc(id);
     const order = await orderRef.get();
 
     if (!order.data()) {
-      return response.failureResponseObject(404, `Order with id ${uid} not found`);
+      return response.failureResponseObject(404, `Order with id ${id} not found`);
     }
 
     await orderRef.update({
@@ -110,22 +119,10 @@ const updateOrder = async (uid, body) => {
     return response.successResponseObject({
       ...order.data(), title, bookingDate: +bookingDate
     }, 200);
-
   } catch (error) {
     return response.serverErrorResponseObject();
   }
-}
-
-/**
- * gets the Order collection
- *
- * @param {uid} uid of the Order
- *
- * @returns {Object} - Promise<Order>
- */
-const getOrderDoc = async (uid) => {
-  return db.collection('orders').doc(uid);
-}
+};
 
 export default {
   saveOrder,
@@ -133,4 +130,4 @@ export default {
   findAll,
   findOne,
   destroy
-}
+};

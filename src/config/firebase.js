@@ -1,4 +1,4 @@
-import * as admin from "firebase-admin";
+import * as admin from 'firebase-admin';
 import dotenv from 'dotenv';
 import FirestoreMock from 'firestore-mock';
 
@@ -20,6 +20,6 @@ export const config = {
 export const firebase = admin.initializeApp({
   credential: admin.credential.cert(config),
   databaseURL: process.env.DATABASE_URL
-})
+});
 
 export const db = process.env.NODE_ENV === 'test' ? new FirestoreMock() : firebase.firestore();
