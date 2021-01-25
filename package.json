@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "npm run clean && npm run build-server",
-    "build-server": "node_modules/.bin/babel src --out-dir dist/src --ignore 'node_modules','src/**/*.spec.js','src/**/*.test.js'",
+    "build-server": "node_modules/.bin/babel src --out-dir dist/src --ignore 'node_modules','src/**/*.spec.js','src/**/*.test.js','src/**/*.json' src/**/schemas --copy-files",
     "clean": "rm -rf dist && mkdir dist",
     "lint": "node_modules/.bin/eslint ./src",
     "lint:fix": "npm run lint --fix",
