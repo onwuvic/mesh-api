@@ -1,4 +1,4 @@
-import response  from '../response';
+import response from '../response';
 import { firebase } from '../config/firebase';
 
 /**
@@ -24,11 +24,10 @@ const tokenAuthentication = async (req, res, next) => {
     const decodedToken = await firebase.auth().verifyIdToken(bearerToken);
 
     req.uid = decodedToken.uid;
-    return next()
+    return next();
   } catch (error) {
     return response.unauthorized(res, 'Error authenticating, please login again');
   }
-
-}
+};
 
 export default tokenAuthentication;

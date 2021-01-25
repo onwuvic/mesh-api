@@ -30,6 +30,6 @@ export const wrongOrderData = {
     name: faker.name.findName(),
     phone: faker.phone.phoneNumberFormat()
   }
-}
+};
 
-export const authToken = 'sjsjsjsj.sjjsjsjjsjs.sjjsjsjsj'
+export const authToken = 'sjsjsjsj.sjjsjsjjsjs.sjjsjsjsj';

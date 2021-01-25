@@ -13,7 +13,7 @@ import response from '../../response';
 const create = async (req, res) => {
   const result = await orderService.saveOrder(req.body);
   return response.httpResponse(res, result);
-}
+};
 
 /**
  * Get all orders
@@ -26,7 +26,7 @@ const create = async (req, res) => {
 const getAll = async (req, res) => {
   const result = await orderService.findAll();
   return response.httpResponse(res, result);
-}
+};
 
 /**
  * Get one order by id
@@ -39,7 +39,7 @@ const getAll = async (req, res) => {
 const getOne = async (req, res) => {
   const result = await orderService.findOne(req.params.orderId);
   return response.httpResponse(res, result);
-}
+};
 
 /**
  * Update an existing order
@@ -52,7 +52,7 @@ const getOne = async (req, res) => {
 const update = async (req, res) => {
   const result = await orderService.updateOrder(req.params.orderId, req.body);
   return response.httpResponse(res, result);
-}
+};
 
 /**
  * Delete an existing order
@@ -65,7 +65,7 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   const result = await orderService.destroy(req.params.orderId);
   return response.httpResponse(res, result);
-}
+};
 
 export default {
   create,
@@ -73,4 +73,4 @@ export default {
   getAll,
   getOne,
   destroy
-}
+};

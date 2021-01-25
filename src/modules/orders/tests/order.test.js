@@ -10,7 +10,7 @@ describe(' ', () => {
   let request;
   let orderId;
   const baseUrl = '/api/v1';
-  const token = process.env.AUTH_TOKEN || authToken
+  const token = process.env.AUTH_TOKEN || authToken;
 
   beforeAll((done) => {
     server = http.createServer(app);
@@ -40,7 +40,7 @@ describe(' ', () => {
           expect(response.body.data.customer.email).toBe(mockOrder.customer.email);
           expect(response.body.data.address.street).toBe(mockOrder.address.street);
         });
-      })
+      });
 
       describe('Failed creating an Order', () => {
         it('should return 401 error if no token is provided', async () => {
@@ -55,35 +55,38 @@ describe(' ', () => {
         it('should return 401 error if wrong token is provided', async () => {
           const response = await request
             .post(`${baseUrl}/orders`)
-            .set('authorization', `Bearer 88383ndhhddjsjjsjs`)
+            .set('authorization', 'Bearer 88383ndhhddjsjjsjs')
             .send(mockOrder);
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('Error authenticating, please login again');
         });
 
-        it('should return a bad request error if any of the required field is missing', async () => {
+        it('should return a bad request error if any of the required field is missing',
+          async () => {
           // customer email is missing here
-          const response = await request
-            .post(`${baseUrl}/orders`)
-            .set('authorization', `Bearer ${token}`)
-            .send(wrongOrderData);
+            const response = await request
+              .post(`${baseUrl}/orders`)
+              .set('authorization', `Bearer ${token}`)
+              .send(wrongOrderData);
 
-          expect(response.status).toBe(400);
-        });
+            expect(response.status).toBe(400);
+          });
 
         it('should return 500 error if server fails to create', async () => {
-          jest.spyOn(ordersService, 'saveOrder').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          jest.spyOn(ordersService, 'saveOrder')
+            .mockResolvedValue(httpResponses.serverErrorResponseObject());
           const response = await request
             .post(`${baseUrl}/orders`)
             .set('authorization', `Bearer ${token}`)
             .send(mockOrder);
 
           expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+          expect(response.body.message)
+            .toBe('Unable to perform this action at this time. Try again later.');
         });
-      })
-    })
+      });
+    });
 
     describe('Updating Order Test', () => {
       describe('Successfully Updating Order', () => {
@@ -92,28 +95,29 @@ describe(' ', () => {
           const response = await request
             .put(`${baseUrl}/orders/${orderId}`)
             .set('authorization', `Bearer ${token}`)
-            .send({ title: 'new title', bookingDate: 1607904000002});
+            .send({ title: 'new title', bookingDate: 1607904000002 });
 
           expect(response.status).toBe(200);
           expect(response.body.data.bookingDate).toBe(1607904000002);
           expect(response.body.data.title).toBe('new title');
         });
-      })
+      });
 
       describe('Failed Updating Order', () => {
-        it('should return a bad request error if title or bookingDate field is missing', async () => {
-          const response = await request
-            .put(`${baseUrl}/orders/${orderId}`)
-            .set('authorization', `Bearer ${token}`)
-            .send({title: 'new title'});
+        it('should return a bad request error if title or bookingDate field is missing',
+          async () => {
+            const response = await request
+              .put(`${baseUrl}/orders/${orderId}`)
+              .set('authorization', `Bearer ${token}`)
+              .send({ title: 'new title' });
 
-          expect(response.status).toBe(400);
-        });
+            expect(response.status).toBe(400);
+          });
 
         it('should return 401 error if no token is provided', async () => {
           const response = await request
             .put(`${baseUrl}/orders/${orderId}`)
-            .send({ title: 'new title', bookingDate: 1607904000002});
+            .send({ title: 'new title', bookingDate: 1607904000002 });
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('No token provided');
@@ -122,8 +126,8 @@ describe(' ', () => {
         it('should return 401 error if wrong token is provided', async () => {
           const response = await request
             .put(`${baseUrl}/orders/${orderId}`)
-            .set('authorization', `Bearer 88383ndhhddjsjjsjs`)
-            .send({ title: 'new title', bookingDate: 1607904000002});
+            .set('authorization', 'Bearer 88383ndhhddjsjjsjs')
+            .send({ title: 'new title', bookingDate: 1607904000002 });
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('Error authenticating, please login again');
@@ -133,24 +137,26 @@ describe(' ', () => {
           const response = await request
             .put(`${baseUrl}/orders/99ow`)
             .set('authorization', `Bearer ${token}`)
-            .send({ title: 'new title', bookingDate: 1607904000002});
+            .send({ title: 'new title', bookingDate: 1607904000002 });
 
           expect(response.status).toBe(404);
           expect(response.body.message).toBe('Order with id 99ow not found');
         });
 
         it('should return 500 error if server fails to update', async () => {
-          jest.spyOn(ordersService, 'updateOrder').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          jest.spyOn(ordersService, 'updateOrder')
+            .mockResolvedValue(httpResponses.serverErrorResponseObject());
           const response = await request
             .put(`${baseUrl}/orders/${orderId}`)
             .set('authorization', `Bearer ${token}`)
-            .send({ title: 'new title', bookingDate: 1607904000002});
+            .send({ title: 'new title', bookingDate: 1607904000002 });
 
           expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+          expect(response.body.message)
+            .toBe('Unable to perform this action at this time. Try again later.');
         });
-      })
-    })
+      });
+    });
 
     describe('Gell All Orders Test', () => {
       describe('Success Getting all Orders', () => {
@@ -163,7 +169,7 @@ describe(' ', () => {
           expect(response.body.data[0]).toHaveProperty('title');
           expect(response.body.data[0]).toHaveProperty('bookingDate');
         });
-      })
+      });
 
       describe('Failed getting all Orders ', () => {
         it('should return 401 error if no token is provided', async () => {
@@ -177,23 +183,25 @@ describe(' ', () => {
         it('should return 401 error if wrong token is provided', async () => {
           const response = await request
             .get(`${baseUrl}/orders`)
-            .set('authorization', `Bearer 88383ndhhddjsjjsjs`);
+            .set('authorization', 'Bearer 88383ndhhddjsjjsjs');
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('Error authenticating, please login again');
         });
 
         it('should return 500 error if server fails to update', async () => {
-          jest.spyOn(ordersService, 'findAll').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          jest.spyOn(ordersService, 'findAll')
+            .mockResolvedValue(httpResponses.serverErrorResponseObject());
           const response = await request
             .get(`${baseUrl}/orders`)
             .set('authorization', `Bearer ${token}`);
 
           expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+          expect(response.body.message)
+            .toBe('Unable to perform this action at this time. Try again later.');
         });
-      })
-    })
+      });
+    });
 
     describe('Gell One Order Test', () => {
       describe('Successfully get an Order', () => {
@@ -206,7 +214,7 @@ describe(' ', () => {
           expect(response.body.data.title).toBe('new title');
           expect(response.body.data.bookingDate).toBe(1607904000002);
         });
-      })
+      });
 
       describe('Failed getting one Order ', () => {
         it('should return 401 error if no token is provided', async () => {
@@ -220,7 +228,7 @@ describe(' ', () => {
         it('should return 401 error if wrong token is provided', async () => {
           const response = await request
             .get(`${baseUrl}/orders/${orderId}`)
-            .set('authorization', `Bearer 88383ndhhddjsjjsjs`);
+            .set('authorization', 'Bearer 88383ndhhddjsjjsjs');
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('Error authenticating, please login again');
@@ -236,17 +244,18 @@ describe(' ', () => {
         });
 
         it('should return 500 error if server fails to update', async () => {
-          jest.spyOn(ordersService, 'findOne').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          jest.spyOn(ordersService, 'findOne')
+            .mockResolvedValue(httpResponses.serverErrorResponseObject());
           const response = await request
             .get(`${baseUrl}/orders/${orderId}`)
             .set('authorization', `Bearer ${token}`);
 
           expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+          expect(response.body.message)
+            .toBe('Unable to perform this action at this time. Try again later.');
         });
-      })
-
-    })
+      });
+    });
 
     describe('Delete Order Test', () => {
       describe('Successfully delete Order', () => {
@@ -258,7 +267,7 @@ describe(' ', () => {
           expect(response.status).toBe(200);
           expect(response.body.data.uid).toBe(orderId);
         });
-      })
+      });
 
       describe('Failed deleting Order', () => {
         it('should return 401 error if no token is provided', async () => {
@@ -272,7 +281,7 @@ describe(' ', () => {
         it('should return 401 error if wrong token is provided', async () => {
           const response = await request
             .delete(`${baseUrl}/orders/${orderId}`)
-            .set('authorization', `Bearer 88383ndhhddjsjjsjs`);
+            .set('authorization', 'Bearer 88383ndhhddjsjjsjs');
 
           expect(response.status).toBe(401);
           expect(response.body.message).toBe('Error authenticating, please login again');
@@ -288,18 +297,17 @@ describe(' ', () => {
         });
 
         it('should return 500 error if server fails to update', async () => {
-          jest.spyOn(ordersService, 'destroy').mockResolvedValue(httpResponses.serverErrorResponseObject());
+          jest.spyOn(ordersService, 'destroy')
+            .mockResolvedValue(httpResponses.serverErrorResponseObject());
           const response = await request
             .delete(`${baseUrl}/orders/${orderId}`)
             .set('authorization', `Bearer ${token}`);
 
           expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Unable to perform this action at this time. Try again later.');
+          expect(response.body.message)
+            .toBe('Unable to perform this action at this time. Try again later.');
         });
-      })
-
-
-    })
-
+      });
+    });
   });
 });
