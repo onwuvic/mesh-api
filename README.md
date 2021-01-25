@@ -33,6 +33,7 @@
 
 ## Test
 * This test is written with [Jest](https://jestjs.io/), Supertest
+* add a valid auth firebase jwt token to `src/tests/mockData` file or `AUTH_TOKEN` in `.env` file
 * To run test `npm test`
 
 ## Coding Style
